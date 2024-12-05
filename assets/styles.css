@@ -1,0 +1,21 @@
+/* Custom tab styling */
+.custom-tabs .tab {
+    transition: all 0.3s ease;
+}
+
+.custom-tabs .tab:hover {
+    opacity: 0.8;
+    transform: translateY(-1px);
+}
+
+/* Remove default tab bottom border */
+.custom-tabs .tab--selected {
+    border-bottom: none !important;
+}
+
+/* Custom tab content area */
+.tab-content {
+    padding: 20px;
+    background-color: white;
+    border-radius: 0 0 5px 5px;
+}

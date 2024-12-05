@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  public-tender-visualization:
+    build:
+      context: .  # Directory containing the Dockerfile
+      dockerfile: Dockerfile
+    ports:
+      - "8050:8050"  # Map container's port 8050 to the host
+    environment:
+      - PYTHONUNBUFFERED=1  # Optional: Ensures logs are streamed immediately
+    volumes:
+      - .:/app  # Mount the current directory into the container for live changes
