@@ -127,7 +127,7 @@ def create_cluster_layout(df, min_year, max_year, summary_data):
     static_content_desc_analysis = dbc.Row([
         # Summary Section
         dbc.Row([
-            dbc.Col(html.H1("Awarded Public Tenders in Nova Scotia", style={'textAlign': 'center'}), width=12),
+            dbc.Col(html.H1("Public Tender Analysis Dashboard - Nova Scotia", style={'textAlign': 'center'}), width=12),
         ]),
         dbc.Row([
             dbc.Col(html.H4("Dataset Summary", style={'textAlign': 'center', 'marginBottom': '20px'}), width=12),
