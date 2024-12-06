@@ -11,3 +11,9 @@ services:
       - PYTHONUNBUFFERED=1  # Optional: Ensures logs are streamed immediately
     volumes:
       - .:/app  # Mount the current directory into the container for live changes
+    #network_mode: "host"  # Optional: Enables host networking for performance
+#    deploy:
+#      resources:
+#        limits:
+#          cpus: '5'
+#          memory: '16G'

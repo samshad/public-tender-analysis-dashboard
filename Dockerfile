@@ -47,6 +47,6 @@ EXPOSE 8050
 CMD ["python", "app.py", "--host=0.0.0.0", "--port=8050"]
 
 
-# docker build --network host -t public-tender-visualization .
-# docker build --no-cache --network host -t public-tender-visualization .
-# docker-compose up -d
+#docker build --network host -t public-tender-visualization .
+#docker build --no-cache --network host -t public-tender-visualization .
+#docker-compose up -d

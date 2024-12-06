@@ -1,6 +1,6 @@
 from dash import html
 
-def generate_filter_message(selected_filters, selected_item):
+def generate_filter_message(selected_filters, selected_item, df_count = 0, filters_df_count = 0):
     if not selected_filters:
         return html.Span(
             "Please select one or more categories to display data.",
@@ -9,8 +9,9 @@ def generate_filter_message(selected_filters, selected_item):
 
     return html.Span(
         f"selected {', '.join(selected_filters).lower()}, so you can see only where"
-        f" {' and '.join(selected_filters).lower()} from {selected_item}.",
-        style={'color': 'black'}
+        f" {' and '.join(selected_filters).lower()} from {selected_item}.\n"
+        f"Filtered {filters_df_count} tenders from a total of {df_count} tenders.\n",
+        style={'color': 'black', 'whiteSpace': 'pre-line'}
     )
 
 def generate_vendor_count_message(selected_entity, unique_vendors_count, data_count):

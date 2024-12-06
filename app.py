@@ -21,7 +21,7 @@ to allow dynamic callbacks (callbacks that are registered at runtime).
 The app uses Bootstrap for styling via `dash_bootstrap_components`.
 """
 app = Dash(__name__, suppress_callback_exceptions=True, external_stylesheets=[dbc.themes.BOOTSTRAP])
-app.title = "Public Tender Analysis Dashboard - Nova Scotia"
+app.title = "Public Tender Data Analysis"
 
 # Define app layout with routing and tabs
 app.layout = html.Div([

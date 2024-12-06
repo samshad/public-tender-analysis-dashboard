@@ -11,11 +11,9 @@ from visualizations.wordcloud import create_word_cloud
 from visualizations.year_vs_awarded_amount import create_year_vs_awarded_amount_bar_chart
 from visualizations.messages_entity_analysis import (
     generate_filter_message,
-    generate_vendor_count_message,
     generate_vendor_frequency_message,
     generate_vendor_amount_message,
     generate_year_award_bar_plot_message,
-    generate_general_word_cloud_message,
     generate_topic_word_cloud_message
 )
 
@@ -75,7 +73,7 @@ def register_callbacks_for_entity(app, df, topic_model):
             return "", f"Displaying entities that belong to the {selected_cluster} cluster. The {selected_cluster} cluster contains {entity_count} entities."
         else:
             return (
-            "When you select a cluster, the Entity dropdown will display only the entities that belong to the selected cluster. (Optional)",
+            "When you select a cluster, the Entity dropdown will display only the entities that belong to the selected cluster.",
             "No cluster is selected, displaying all entities.")
 
     @app.callback(
@@ -114,8 +112,11 @@ def register_callbacks_for_entity(app, df, topic_model):
 
         unique_vendors_count = filtered_df['VENDOR'].nunique()
 
+        df_count = len(df)
+        filter_df_count = len(filtered_df)
+
         # Generate the various messages based on the filtered data
-        filter_message = generate_filter_message(selected_filters, selected_entity)
+        filter_message = generate_filter_message(selected_filters, selected_entity, df_count, filter_df_count)
         vendor_freq_message = generate_vendor_frequency_message(unique_vendors_count, data_count, selected_entity)
         vendor_amount_message = generate_vendor_amount_message(unique_vendors_count, data_count, selected_entity)
         year_award_message = generate_year_award_bar_plot_message(selected_entity)
@@ -231,14 +232,20 @@ def register_callbacks_for_entity(app, df, topic_model):
                 bar_df = pd.DataFrame(bar_data)
 
                 # Group by Year and Vendor, summing awarded amounts
-                grouped_df = bar_df.groupby(['YEAR', 'VENDOR', 'ENTITY_CLUSTER_NAME'])['AWARDED_AMOUNT'].sum().reset_index()
+                grouped_df = bar_df.groupby(['TENDER_ID', 'YEAR', 'VENDOR', 'ENTITY_CLUSTER_NAME'])['AWARDED_AMOUNT'].sum().reset_index()
+
+                # Sort by Vendor and Year
+                grouped_df = grouped_df.sort_values(by=['VENDOR', 'YEAR'],
+                                                    key=lambda col: col.str.lower() if col.name == 'VENDOR' else col)
+
                 year_awarded_amount_figure = create_year_vs_awarded_amount_bar_chart(grouped_df, 'VENDOR')
 
         # Return all three figures
         return tender_frequency_figure, awarded_amount_figure, year_awarded_amount_figure
 
     @app.callback(
-        [Output("modal-body", "children"), Output("tender-modal", "is_open")],
+        [Output("modal-body", "children"), Output("tender-modal", "is_open"),
+         Output("year-vs-awarded-amount", "clickData")],
         [
             Input("year-vs-awarded-amount", "clickData"),
             Input("close-modal", "n_clicks")
@@ -255,19 +262,16 @@ def register_callbacks_for_entity(app, df, topic_model):
         ctx = dash.callback_context  # Get the triggered context
         triggered_id = ctx.triggered[0]["prop_id"].split(".")[0]  # Get the ID of the triggered component
 
-        # If the close button is clicked, close the modal
-        if n_clicks and is_open:
-            return "", False  # Close the modal
+        # If the close button is clicked, close the modal and reset clickData
+        if triggered_id == "close-modal" and n_clicks:
+            return "", False, None  # Close the modal and reset clickData
 
         # Handle click data from the chart
         if triggered_id == "year-vs-awarded-amount" and bar_clickData:
-            year = bar_clickData["points"][0]["x"]
-            vendor = bar_clickData["points"][0]["customdata"][0]
+            tender_id = bar_clickData["points"][0]["customdata"][0]
 
             # Filter the dataframe for the clicked year and vendor
-            selected_tender = df[
-                (df["TENDER_START_DATE"].dt.year == int(year)) & (df["VENDOR"] == vendor)
-                ]
+            selected_tender = df[df["TENDER_ID"] == tender_id]
 
             # If the selected tender exists, extract its details
             if not selected_tender.empty:
@@ -280,16 +284,16 @@ def register_callbacks_for_entity(app, df, topic_model):
 
                 # Set modal content
                 modal_content = [
-                    html.P(f"Description: {tender_description}"),
-                    html.P(f"Duration: {tender_duration} days"),
-                    html.P(f"Awarded Date: {awarded_date}"),
+                    html.P(f"Tender Description: {tender_description}"),
+                    html.P(f"Tender Duration: {tender_duration} days"),
+                    html.P(f"Tender Awarded Date: {awarded_date}"),
                     html.P(f"Vendor: {vendor_name}"),
                     html.P(f"Entity: {entity_name}")
                 ]
-                return modal_content, True  # Open modal with content
+                return modal_content, True, bar_clickData  # Open modal with content and preserve clickData
 
         # If no valid clickData is present, or the modal is already open, return existing state
-        return "", is_open
+        return "", is_open, bar_clickData
 
     @app.callback(
         Output('topic-word-cloud', 'figure'),

@@ -36,7 +36,7 @@ def create_entity_layout(df, min_year, max_year):
     sidebar_content = dbc.Col(
         [
             html.H4("Filters", className="mb-3"),
-            html.H6("Select a cluster:"),
+            html.H6("Select a cluster (Optional):"),
             html.Div([
                 html.H6(
                     id='cluster-dropdown-desc',
