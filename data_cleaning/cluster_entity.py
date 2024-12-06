@@ -25,6 +25,8 @@ def elbow_test(texts, max_clusters=10):
     plt.xlabel('Number of Clusters')
     plt.ylabel('WCSS')
     plt.show()
+
+
 # --- Clustering Functions ---
 def encode_texts(texts):
     """
@@ -32,6 +34,8 @@ def encode_texts(texts):
     """
     model = SentenceTransformer('all-MiniLM-L6-v2')
     return model.encode(texts)
+
+
 def cluster_texts_kmeans(texts, num_clusters=10):
     """
     Cluster texts using KMeans.
@@ -40,6 +44,8 @@ def cluster_texts_kmeans(texts, num_clusters=10):
     kmeans = KMeans(n_clusters=num_clusters, random_state=0)
     kmeans.fit(embeddings)
     return kmeans.labels_
+
+
 def cluster_texts_agglomerative(texts, num_clusters=10):
     """
     Cluster texts using Agglomerative Clustering.
@@ -47,6 +53,8 @@ def cluster_texts_agglomerative(texts, num_clusters=10):
     embeddings = encode_texts(texts)
     agglomerative = AgglomerativeClustering(n_clusters=num_clusters, linkage='ward')
     return agglomerative.fit_predict(embeddings)
+
+
 def assign_cluster_names(data, texts, clusters, cluster_names):
     """
     Map entities to cluster names and add them to the DataFrame.
@@ -60,6 +68,8 @@ def assign_cluster_names(data, texts, clusters, cluster_names):
     entity_to_cluster_name = dict(zip(cluster_mapping['Entity'], cluster_mapping['ClusterName']))
     data = data.assign(ENTITY_CLUSTER_NAME=data['ENTITY'].map(entity_to_cluster_name))
     return data, cluster_mapping
+
+
 def display_cluster_groups(cluster_mapping):
     """
     Display entities grouped by clusters.
@@ -72,6 +82,8 @@ def display_cluster_groups(cluster_mapping):
         for entity in cluster_entities:
             print(f" - {entity}")
         print("\n")
+
+
 # --- Main Analysis Function ---
 def analyze_entity_clusters(data, num_kmeans_clusters=15, num_agglomerative_clusters=15):
     """
