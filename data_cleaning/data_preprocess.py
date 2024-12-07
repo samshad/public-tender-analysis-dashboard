@@ -6,8 +6,8 @@ from utils.constants import ENTITY_FIXED_FILEPATH, VENDOR_FIXED_FILEPATH
 from utils.unknown_vendor import vendors_to_exclude
 
 # Download required NLTK resources
-#nltk.download('punkt', quiet=True)
-#nltk.download('stopwords', quiet=True)
+# nltk.download('punkt', quiet=True)
+# nltk.download('stopwords', quiet=True)
 
 
 def load_mapping(filepath: str) -> dict:

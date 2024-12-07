@@ -1,28 +1,69 @@
 from dash import html
+from typing import List, Union
 
-def generate_filter_message(selected_filters, selected_item, df_count = 0, filters_df_count = 0):
+# Constants
+BLACK_TEXT_STYLE = {'color': 'black', 'whiteSpace': 'pre-line'}
+RED_TEXT_STYLE = {'color': 'red'}
+
+
+def generate_filter_message(selected_filters: List[str], selected_item: str, df_count: int = 0, filters_df_count: int = 0):
+    """
+    Generates a filter message based on selected filters and items.
+
+    Parameters:
+        selected_filters (List[str]): List of selected filter categories.
+        selected_item (str): The currently selected item (e.g., organization or cluster).
+        df_count (int): Total number of tenders.
+        filters_df_count (int): Number of tenders after filtering.
+
+    Returns:
+        html.Span: A Dash HTML Span component containing the filter message.
+    """
     if not selected_filters:
         return html.Span(
             "Please select one or more categories to display data.",
-            style={'color': 'red'}
+            style=RED_TEXT_STYLE
         )
 
     return html.Span(
         f"selected {', '.join(selected_filters).lower()}, so you can see only where"
         f" {' and '.join(selected_filters).lower()} from {selected_item}.\n"
         f"Filtered {filters_df_count} tenders from a total of {df_count} tenders.\n",
-        style={'color': 'black', 'whiteSpace': 'pre-line'}
+        style=BLACK_TEXT_STYLE
     )
 
-def generate_vendor_count_message(selected_entity, unique_vendors_count, data_count):
-    return f"{selected_entity} contains {unique_vendors_count} unique-vendor tenders with the applied filters. Showing {data_count} of them."
+def generate_vendor_count_message(selected_entity: str, unique_vendors_count: int, data_count: int) -> str:
+    """
+    Generates a message summarizing vendor count with applied filters.
+
+    Parameters:
+        selected_entity (str): Selected entity (e.g., cluster or organization).
+        unique_vendors_count (int): Total number of unique vendors.
+        data_count (int): Number of vendors shown in the visualization.
+
+    Returns:
+        str: A descriptive message.
+    """
+    return (
+        f"{selected_entity} contains {unique_vendors_count} unique-vendor tenders with the applied filters. "
+        f"Showing {data_count} of them."
+    )
 
 
-def generate_vendor_frequency_message(unique_vendors_count, data_count, selected_item, is_cluster=False):
-    if is_cluster:
-        item_message = f"within the {selected_item} cluster"
-    else:
-        item_message = f"within the {selected_item} organization"
+def generate_vendor_frequency_message(unique_vendors_count: int, data_count: int, selected_item: str, is_cluster: bool = False) -> html.Div:
+    """
+    Generates a descriptive message for vendor frequency bar chart.
+
+    Parameters:
+        unique_vendors_count (int): Total number of unique vendors.
+        data_count (int): Number of vendors shown in the visualization.
+        selected_item (str): Selected entity or cluster.
+        is_cluster (bool): Flag indicating if the selected item is a cluster.
+
+    Returns:
+        html.Div: A Dash HTML Div component containing the message.
+    """
+    item_message = f"within the {selected_item} cluster" if is_cluster else f"within the {selected_item} organization"
 
     return html.Div(
         children=[
@@ -38,15 +79,24 @@ def generate_vendor_frequency_message(unique_vendors_count, data_count, selected
                 ]
             )
         ],
-        style={'color': 'black'}
+        style=BLACK_TEXT_STYLE
     )
 
 
-def generate_vendor_amount_message(unique_vendors_count, data_count, selected_item, is_cluster=False):
-    if is_cluster:
-        item_message = f"within the {selected_item} cluster"
-    else:
-        item_message = f"within the {selected_item} organization"
+def generate_vendor_amount_message(unique_vendors_count: int, data_count: int, selected_item: str, is_cluster: bool = False) -> html.Div:
+    """
+    Generates a descriptive message for vendor amount bar chart.
+
+    Parameters:
+        unique_vendors_count (int): Total number of unique vendors.
+        data_count (int): Number of vendors shown in the visualization.
+        selected_item (str): Selected entity or cluster.
+        is_cluster (bool): Flag indicating if the selected item is a cluster.
+
+    Returns:
+        html.Div: A Dash HTML Div component containing the message.
+    """
+    item_message = f"within the {selected_item} cluster" if is_cluster else f"within the {selected_item} organization"
 
     return html.Div(
         children=[
@@ -58,15 +108,25 @@ def generate_vendor_amount_message(unique_vendors_count, data_count, selected_it
             html.Ul(
                 [
                     html.Li("X-axis (VENDOR): Represents the names of vendors awarded tenders."),
-                    html.Li("Y-axis (AWARDED_AMOUNT): Indicates the total monetary value of tenders awarded to each vendor.")
+                    html.Li("Y-axis (TENDER AMOUNT): Indicates the total monetary value of tenders awarded to each vendor.")
                 ]
             )
         ],
-        style={'color': 'black'}
+        style=BLACK_TEXT_STYLE
     )
 
 
-def generate_year_award_bar_plot_message(selected_item, is_cluster=False):
+def generate_year_award_bar_plot_message(selected_item: str, is_cluster: bool = False) -> html.Div:
+    """
+    Generates a descriptive message for the year award bar plot.
+
+    Parameters:
+        selected_item (str): Selected entity or cluster.
+        is_cluster (bool): Flag indicating if the selected item is a cluster.
+
+    Returns:
+        html.Div: A Dash HTML Div component containing the message.
+    """
     if is_cluster:
         item_message_one = f"in the {selected_item} cluster"
         item_message_two = f"within the {selected_item} cluster"
@@ -92,15 +152,23 @@ def generate_year_award_bar_plot_message(selected_item, is_cluster=False):
                 ]
             )
         ],
-        style={'color': 'black'}
+        style=BLACK_TEXT_STYLE
     )
 
 
-def generate_general_word_cloud_message(unique_vendors_count, selected_item, is_cluster=False):
-    if is_cluster:
-        item_message = f"in the {selected_item} cluster"
-    else:
-        item_message = f"in the {selected_item} organization"
+def generate_general_word_cloud_message(unique_vendors_count: int, selected_item: str, is_cluster: bool = False) -> html.Div:
+    """
+    Generates a descriptive message for the general word cloud.
+
+    Parameters:
+        unique_vendors_count (int): Total number of unique vendors.
+        selected_item (str): Selected entity or cluster.
+        is_cluster (bool): Flag indicating if the selected item is a cluster.
+
+    Returns:
+        html.Div: A Dash HTML Div component containing the message.
+    """
+    item_message = f"in the {selected_item} cluster" if is_cluster else f"in the {selected_item} organization"
 
     return html.Div(
         children=[
@@ -111,11 +179,22 @@ def generate_general_word_cloud_message(unique_vendors_count, selected_item, is_
                 f" {item_message}, the word cloud emphasizes key themes and commonly awarded vendor names."
             ),
         ],
-        style={'color': 'black'}
+        style=BLACK_TEXT_STYLE
     )
 
 
-def generate_topic_word_cloud_message(unique_vendors_count, selected_item, is_cluster=False):
+def generate_topic_word_cloud_message(unique_vendors_count: int, selected_item: str, is_cluster: bool = False) -> html.Div:
+    """
+    Generates a descriptive message for the BERTopic-based word cloud.
+
+    Parameters:
+        unique_vendors_count (int): Total number of unique vendors.
+        selected_item (str): Selected entity or cluster.
+        is_cluster (bool): Flag indicating if the selected item is a cluster.
+
+    Returns:
+        html.Div: A Dash HTML Div component containing the message.
+    """
     if is_cluster:
         item_message_one = f"in the {selected_item} cluster"
         item_message_two = f"within the {selected_item} cluster"
@@ -133,5 +212,5 @@ def generate_topic_word_cloud_message(unique_vendors_count, selected_item, is_cl
                 f" view of procurement priorities {item_message_two}."
             ),
         ],
-        style={'color': 'black'}
+        style=BLACK_TEXT_STYLE
     )

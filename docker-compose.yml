@@ -1,19 +1,15 @@
 version: '3.8'
 
 services:
-  public-tender-visualization:
+  public-tender-analysis-dashboard:
     build:
-      context: .  # Directory containing the Dockerfile
+      context: .
       dockerfile: Dockerfile
     ports:
-      - "8050:8050"  # Map container's port 8050 to the host
+      - "8050:8050"
     environment:
-      - PYTHONUNBUFFERED=1  # Optional: Ensures logs are streamed immediately
+      HOST: 0.0.0.0
+      PORT: 8050
+      PYTHONUNBUFFERED: 1  # Ensures logs are streamed immediately
     volumes:
-      - .:/app  # Mount the current directory into the container for live changes
-    #network_mode: "host"  # Optional: Enables host networking for performance
-#    deploy:
-#      resources:
-#        limits:
-#          cpus: '5'
-#          memory: '16G'
+      - .:/app  # Mounts the current directory to the container's working directory

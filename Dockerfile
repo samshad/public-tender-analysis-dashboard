@@ -16,37 +16,39 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     zlib1g-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Set working directory
 WORKDIR /app
 
-# Copy requirements file
 COPY requirements.txt .
 
-# Install Python dependencies with pip
+# Install Python primary dependencies with pip
 RUN pip install --no-cache-dir --upgrade pip setuptools wheel
 
+# Install NLTK and download necessary resources
 RUN pip install --no-cache-dir nltk
 
 RUN python -m nltk.downloader punkt punkt_tab stopwords
 
+# Install additional Python dependencies with --only-binary option for efficiency
 RUN pip install --no-cache-dir numpy pandas --only-binary=:all:
 
 RUN pip install --no-cache-dir tokenizers
 
 RUN pip install --no-cache-dir bertopic[all]
 
+# Install the rest of the Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application
 COPY . .
 
-# Expose the port the app runs on
-EXPOSE 8050
+# Set environment variables for flexibility
+ENV HOST=0.0.0.0
+ENV PORT=8050
+
+EXPOSE $PORT
 
 # Command to run the application
-CMD ["python", "app.py", "--host=0.0.0.0", "--port=8050"]
+CMD ["python", "app.py", "--host=${HOST}", "--port=${PORT}"]
 
-
-#docker build --network host -t public-tender-visualization .
-#docker build --no-cache --network host -t public-tender-visualization .
-#docker-compose up -d
+# Build and run the Docker container
+# docker build --no-cache -t public-tender-analysis-dashboard .
+# docker-compose up -d
