@@ -32,6 +32,7 @@ def generate_filter_message(selected_filters: List[str], selected_item: str, df_
         style=BLACK_TEXT_STYLE
     )
 
+
 def generate_vendor_count_message(selected_entity: str, unique_vendors_count: int, data_count: int) -> str:
     """
     Generates a message summarizing vendor count with applied filters.

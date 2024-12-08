@@ -19,6 +19,7 @@ from visualizations.messages_entity_analysis import (
     generate_topic_word_cloud_message
 )
 
+
 def register_callbacks_for_cluster(app, df, topic_model):
     """
         Registers callbacks to update various plots for descriptive analysis of awarded amounts.
