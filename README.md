@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project aims to visualize and analyze public tender data from Nova Scotia. The goal is to provide insights into public tender activities, such as identifying trends, evaluating vendor performance, and understanding the distribution of awarded contracts.
+This project aims to visualize and analyze public tender data from Nova Scotia. The goal is to provide insights into public tender activities, such as identifying trends, evaluating vendor performance, and understanding the distribution of awarded contracts. This project is a Python-based tool using Dash to create interactive visualizations for procurement data. It generates descriptive messages for visualizations like bar plots and word clouds, highlighting key trends and insights. The project leverages BERTopic for topic modeling.
 
 ## Dataset
 
