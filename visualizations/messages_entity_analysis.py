@@ -2,11 +2,16 @@ from dash import html
 from typing import List, Union
 
 # Constants
-BLACK_TEXT_STYLE = {'color': 'black', 'whiteSpace': 'pre-line'}
-RED_TEXT_STYLE = {'color': 'red'}
+BLACK_TEXT_STYLE = {"color": "black", "whiteSpace": "pre-line"}
+RED_TEXT_STYLE = {"color": "red"}
 
 
-def generate_filter_message(selected_filters: List[str], selected_item: str, df_count: int = 0, filters_df_count: int = 0):
+def generate_filter_message(
+    selected_filters: List[str],
+    selected_item: str,
+    df_count: int = 0,
+    filters_df_count: int = 0,
+):
     """
     Generates a filter message based on selected filters and items.
 
@@ -22,18 +27,20 @@ def generate_filter_message(selected_filters: List[str], selected_item: str, df_
     if not selected_filters:
         return html.Span(
             "Please select one or more categories to display data.",
-            style=RED_TEXT_STYLE
+            style=RED_TEXT_STYLE,
         )
 
     return html.Span(
         f"selected {', '.join(selected_filters).lower()}, so you can see only where"
         f" {' and '.join(selected_filters).lower()} from {selected_item}.\n"
         f"Filtered {filters_df_count} tenders from a total of {df_count} tenders.\n",
-        style=BLACK_TEXT_STYLE
+        style=BLACK_TEXT_STYLE,
     )
 
 
-def generate_vendor_count_message(selected_entity: str, unique_vendors_count: int, data_count: int) -> str:
+def generate_vendor_count_message(
+    selected_entity: str, unique_vendors_count: int, data_count: int
+) -> str:
     """
     Generates a message summarizing vendor count with applied filters.
 
@@ -51,7 +58,12 @@ def generate_vendor_count_message(selected_entity: str, unique_vendors_count: in
     )
 
 
-def generate_vendor_frequency_message(unique_vendors_count: int, data_count: int, selected_item: str, is_cluster: bool = False) -> html.Div:
+def generate_vendor_frequency_message(
+    unique_vendors_count: int,
+    data_count: int,
+    selected_item: str,
+    is_cluster: bool = False,
+) -> html.Div:
     """
     Generates a descriptive message for vendor frequency bar chart.
 
@@ -64,7 +76,11 @@ def generate_vendor_frequency_message(unique_vendors_count: int, data_count: int
     Returns:
         html.Div: A Dash HTML Div component containing the message.
     """
-    item_message = f"within the {selected_item} cluster" if is_cluster else f"within the {selected_item} organization"
+    item_message = (
+        f"within the {selected_item} cluster"
+        if is_cluster
+        else f"within the {selected_item} organization"
+    )
 
     return html.Div(
         children=[
@@ -75,16 +91,25 @@ def generate_vendor_frequency_message(unique_vendors_count: int, data_count: int
             ),
             html.Ul(
                 [
-                    html.Li("X-axis (VENDOR): Shows the company names that received tender awards."),
-                    html.Li("Y-axis (FREQUENCY): Shows the count of tenders awarded to each vendor.")
+                    html.Li(
+                        "X-axis (VENDOR): Shows the company names that received tender awards."
+                    ),
+                    html.Li(
+                        "Y-axis (FREQUENCY): Shows the count of tenders awarded to each vendor."
+                    ),
                 ]
-            )
+            ),
         ],
-        style=BLACK_TEXT_STYLE
+        style=BLACK_TEXT_STYLE,
     )
 
 
-def generate_vendor_amount_message(unique_vendors_count: int, data_count: int, selected_item: str, is_cluster: bool = False) -> html.Div:
+def generate_vendor_amount_message(
+    unique_vendors_count: int,
+    data_count: int,
+    selected_item: str,
+    is_cluster: bool = False,
+) -> html.Div:
     """
     Generates a descriptive message for vendor amount bar chart.
 
@@ -97,7 +122,11 @@ def generate_vendor_amount_message(unique_vendors_count: int, data_count: int, s
     Returns:
         html.Div: A Dash HTML Div component containing the message.
     """
-    item_message = f"within the {selected_item} cluster" if is_cluster else f"within the {selected_item} organization"
+    item_message = (
+        f"within the {selected_item} cluster"
+        if is_cluster
+        else f"within the {selected_item} organization"
+    )
 
     return html.Div(
         children=[
@@ -108,16 +137,22 @@ def generate_vendor_amount_message(unique_vendors_count: int, data_count: int, s
             ),
             html.Ul(
                 [
-                    html.Li("X-axis (VENDOR): Represents the names of vendors awarded tenders."),
-                    html.Li("Y-axis (TENDER AMOUNT): Indicates the total monetary value of tenders awarded to each vendor.")
+                    html.Li(
+                        "X-axis (VENDOR): Represents the names of vendors awarded tenders."
+                    ),
+                    html.Li(
+                        "Y-axis (TENDER AMOUNT): Indicates the total monetary value of tenders awarded to each vendor."
+                    ),
                 ]
-            )
+            ),
         ],
-        style=BLACK_TEXT_STYLE
+        style=BLACK_TEXT_STYLE,
     )
 
 
-def generate_year_award_bar_plot_message(selected_item: str, is_cluster: bool = False) -> html.Div:
+def generate_year_award_bar_plot_message(
+    selected_item: str, is_cluster: bool = False
+) -> html.Div:
     """
     Generates a descriptive message for the year award bar plot.
 
@@ -147,17 +182,22 @@ def generate_year_award_bar_plot_message(selected_item: str, is_cluster: bool = 
             html.Ul(
                 [
                     html.Li("X-axis (YEAR): Represents the year of tender awards."),
-                    html.Li("Y-axis (AWARDED AMOUNT): Indicates the total tender amount awarded to vendors in each year."),
                     html.Li(
-                        "Legend (VENDOR): Lists vendors contributing to the awarded amounts.")
+                        "Y-axis (AWARDED AMOUNT): Indicates the total tender amount awarded to vendors in each year."
+                    ),
+                    html.Li(
+                        "Legend (VENDOR): Lists vendors contributing to the awarded amounts."
+                    ),
                 ]
-            )
+            ),
         ],
-        style=BLACK_TEXT_STYLE
+        style=BLACK_TEXT_STYLE,
     )
 
 
-def generate_general_word_cloud_message(unique_vendors_count: int, selected_item: str, is_cluster: bool = False) -> html.Div:
+def generate_general_word_cloud_message(
+    unique_vendors_count: int, selected_item: str, is_cluster: bool = False
+) -> html.Div:
     """
     Generates a descriptive message for the general word cloud.
 
@@ -169,7 +209,11 @@ def generate_general_word_cloud_message(unique_vendors_count: int, selected_item
     Returns:
         html.Div: A Dash HTML Div component containing the message.
     """
-    item_message = f"in the {selected_item} cluster" if is_cluster else f"in the {selected_item} organization"
+    item_message = (
+        f"in the {selected_item} cluster"
+        if is_cluster
+        else f"in the {selected_item} organization"
+    )
 
     return html.Div(
         children=[
@@ -180,11 +224,13 @@ def generate_general_word_cloud_message(unique_vendors_count: int, selected_item
                 f" {item_message}, the word cloud emphasizes key themes and commonly awarded vendor names."
             ),
         ],
-        style=BLACK_TEXT_STYLE
+        style=BLACK_TEXT_STYLE,
     )
 
 
-def generate_topic_word_cloud_message(unique_vendors_count: int, selected_item: str, is_cluster: bool = False) -> html.Div:
+def generate_topic_word_cloud_message(
+    unique_vendors_count: int, selected_item: str, is_cluster: bool = False
+) -> html.Div:
     """
     Generates a descriptive message for the BERTopic-based word cloud.
 
@@ -213,5 +259,5 @@ def generate_topic_word_cloud_message(unique_vendors_count: int, selected_item: 
                 f" view of procurement priorities {item_message_two}."
             ),
         ],
-        style=BLACK_TEXT_STYLE
+        style=BLACK_TEXT_STYLE,
     )

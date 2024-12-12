@@ -20,6 +20,6 @@ def map_cluster_with_entity(df):
             entity_to_cluster[entity] = cluster_name
 
     # Map the 'ENTITY' column to 'ENTITY_CLUSTER_NAME' based on the entity_to_cluster mapping
-    df['ENTITY_CLUSTER_NAME'] = df['ENTITY'].map(entity_to_cluster)
+    df["ENTITY_CLUSTER_NAME"] = df["ENTITY"].map(entity_to_cluster)
 
     return df

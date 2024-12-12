@@ -3,10 +3,7 @@ import pandas as pd
 
 
 def create_tender_frequency_bar_chart(
-    tender_frequency: pd.DataFrame,
-    data_count: int,
-    x: str,
-    y: str
+    tender_frequency: pd.DataFrame, data_count: int, x: str, y: str
 ) -> px.bar:
     """
     Creates a bar chart to visualize the frequency of tenders by a specified variable.
@@ -37,9 +34,7 @@ def create_tender_frequency_bar_chart(
 
     # Update layout dynamically based on x and y
     fig.update_layout(
-        xaxis_title="VENDOR",
-        yaxis_title="FREQUENCY OF TENDER",
-        template="plotly"
+        xaxis_title="VENDOR", yaxis_title="FREQUENCY OF TENDER", template="plotly"
     )
 
     return fig

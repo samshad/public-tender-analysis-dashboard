@@ -3,10 +3,10 @@ import pandas as pd
 
 
 def create_topic_time_visualization(
-        topic_counts: pd.DataFrame,
-        topic_keywords: dict,
-        selected_item: str,
-        is_cluster: bool = False
+    topic_counts: pd.DataFrame,
+    topic_keywords: dict,
+    selected_item: str,
+    is_cluster: bool = False,
 ) -> tuple[go.Figure, str]:
     """
     Creates a line chart to visualize the evolution of topics over time.
@@ -24,24 +24,29 @@ def create_topic_time_visualization(
     # Validate input DataFrame
     if topic_counts.empty or not isinstance(topic_keywords, dict):
         raise ValueError(
-            "Invalid input: Ensure 'topic_counts' is a non-empty DataFrame and 'topic_keywords' is a dictionary.")
+            "Invalid input: Ensure 'topic_counts' is a non-empty DataFrame and 'topic_keywords' is a dictionary."
+        )
 
     fig = go.Figure()
     for topic in topic_counts.columns:
         # Validate that keywords exist for the topic
         keywords = topic_keywords.get(topic, "No keywords available")
 
-        fig.add_trace(go.Scatter(
-            x=topic_counts.index,
-            y=topic_counts[topic],
-            mode='lines+markers',
-            name=f'Topic {topic}',
-            hovertemplate=(f"Topic {topic}<br>"
-                           f"Keywords: {keywords}<br>"
-                           f"Year: %{{x}}<br>"
-                           f"Count: %{{y}}<br>"
-                           f"<extra></extra>")
-        ))
+        fig.add_trace(
+            go.Scatter(
+                x=topic_counts.index,
+                y=topic_counts[topic],
+                mode="lines+markers",
+                name=f"Topic {topic}",
+                hovertemplate=(
+                    f"Topic {topic}<br>"
+                    f"Keywords: {keywords}<br>"
+                    f"Year: %{{x}}<br>"
+                    f"Count: %{{y}}<br>"
+                    f"<extra></extra>"
+                ),
+            )
+        )
 
     # Update layout
     fig.update_layout(
@@ -50,11 +55,15 @@ def create_topic_time_visualization(
         hovermode="x unified",
         template="plotly",
         title_text="Topic Evolution Over Time",
-        title_x=0.5
+        title_x=0.5,
     )
 
     # Generate description text
-    cluster_text = f"within the {selected_item} cluster" if is_cluster else f"within the {selected_item} organization"
+    cluster_text = (
+        f"within the {selected_item} cluster"
+        if is_cluster
+        else f"within the {selected_item} organization"
+    )
     topic_description = (
         f"This visualization tracks the evolution of topics over time {cluster_text}. "
         f"The line chart shows how frequently each topic appears in tender descriptions across different years, "

@@ -43,7 +43,7 @@ def get_data(filepath: str = DATA_FILEPATH):
     df = map_cluster_with_entity(df)
 
     # Get the minimum and maximum years based on the 'TENDER_START_DATE'
-    min_year = df['TENDER_START_DATE'].dt.year.min()
-    max_year = df['TENDER_START_DATE'].dt.year.max()
+    min_year = df["TENDER_START_DATE"].dt.year.min()
+    max_year = df["TENDER_START_DATE"].dt.year.max()
 
     return df, min_year, max_year

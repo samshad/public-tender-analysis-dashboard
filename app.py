@@ -29,19 +29,27 @@ app = Dash(
 app.title = "Public Tender Analysis Dashboard - Nova Scotia"
 
 # Define app layout with routing and tabs
-app.layout = html.Div([
-    dcc.Location(id="url", refresh=False),
-    html.Div(id="page-content"),
-])
+app.layout = html.Div(
+    [
+        dcc.Location(id="url", refresh=False),
+        html.Div(id="page-content"),
+    ]
+)
 
 # Initialize BERTopic model (lazy-loading might be considered for performance optimization)
 topic_model = BERTopic()
 
 # Register callbacks
 register_page_routing_callbacks(app)  # Callbacks for page routing are registered here
-register_tabs_callbacks(app, df, min_year, max_year)  # Callbacks for tabs are registered here
-register_callbacks_for_cluster(app, df, topic_model) # Callbacks for clustering are registered here
-register_callbacks_for_entity(app, df, topic_model) # Callbacks for entity analysis are registered here
+register_tabs_callbacks(
+    app, df, min_year, max_year
+)  # Callbacks for tabs are registered here
+register_callbacks_for_cluster(
+    app, df, topic_model
+)  # Callbacks for clustering are registered here
+register_callbacks_for_entity(
+    app, df, topic_model
+)  # Callbacks for entity analysis are registered here
 
 # Run app in debug mode (toggle for production using an environment variable)
 if __name__ == "__main__":
