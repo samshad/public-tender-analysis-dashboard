@@ -53,5 +53,6 @@ register_callbacks_for_entity(
 
 # Run app in debug mode (toggle for production using an environment variable)
 if __name__ == "__main__":
+    port = int(os.environ.get('PORT', 8050))
     debug_mode = os.getenv("DEBUG", "True").lower() == "true"
-    app.run_server(host="0.0.0.0", port=8050, debug=debug_mode)
+    app.run_server(host="0.0.0.0", port=port, debug=debug_mode)
