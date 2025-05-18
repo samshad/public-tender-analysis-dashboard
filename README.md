@@ -52,7 +52,7 @@ docker-compose up --build
 
 ### Local Python
 ```bash
-python -m venv .venv && source .venv/bin/activate   # or `.\.venv\Scriptsctivate` on Windows
+python -m venv .venv && source .venv/bin/activate   # or `.\.venv\Scripts\ctivate` on Windows
 pip install -r requirements.txt
 python app.py
 ```
